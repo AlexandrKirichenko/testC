@@ -14,7 +14,6 @@ export const MainPage: FC = () => {
       receive_currency: 'DO_NOT_CONVERT',
     });
     window.location.href = `${res.payment_url}`;
-    console.log(res);
   };
 
   return (
