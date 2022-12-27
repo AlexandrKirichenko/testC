@@ -1,19 +1,51 @@
+import { getUUID } from '@utils/getUUID';
 import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { PostOrders } from '@api/coincate';
 import { Input } from '@components/Input';
 import styles from './MainPage.module.scss';
 
+const productsArray = [
+  { id: 'price_1MD6tkA9A0Ev8QN3eZFZbbDo', title: 'Heart', price: 10 },
+];
 export const MainPage: FC = () => {
   const [value, setValue] = useState<number>(1);
-
+  const [loading, setVLoading] = useState<boolean>(false);
   const redirect = async () => {
     const res = await PostOrders({
+      order_id: getUUID(),
       price_amount: +`${value * 10}`,
       price_currency: 'EUR',
       receive_currency: 'DO_NOT_CONVERT',
+      success_url: 'http://localhost:3000/main',
+      cancel_url: 'https://coingate.com/',
+      callback: 'http://localhost:3000/main',
+      description: 'Your order in crypto',
     });
+    alert(`${res.id}`);
     window.location.href = `${res.payment_url}`;
+    setVLoading(!loading);
+  };
+
+  const checkout = async () => {
+    await fetch('http://localhost:4001/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        items: [{ id: 'price_1MD6tkA9A0Ev8QN3eZFZbbDo', quantity: value }],
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url); // Forwarding user to Stripe
+        }
+      });
+    setVLoading(!loading);
   };
 
   return (
@@ -21,10 +53,13 @@ export const MainPage: FC = () => {
       <Input
         type={'number'}
         value={value}
-        onChange={(e) => setValue(+e.target.value)}
+        onChange={(e) => setValue(+e.target.value ? +e.target.value : 1)}
       />
       <div>{value}</div>
-      <button onClick={redirect}>BUY A FRACTION</button>
+      {loading && <div>Loading...</div>}
+      <button onClick={checkout}>BUY A FR(FIAT)</button>
+      <br />
+      <button onClick={redirect}>BUY A FR(CRYPTO)</button>
     </div>
   );
 };
