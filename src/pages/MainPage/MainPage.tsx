@@ -13,15 +13,18 @@ export const MainPage: FC = () => {
   const [loading, setVLoading] = useState<boolean>(false);
   const redirect = async () => {
     const res = await PostOrders({
-      order_id: getUUID(),
+      order_id: '778',
       price_amount: +`${value * 10}`,
       price_currency: 'EUR',
       receive_currency: 'DO_NOT_CONVERT',
-      success_url: 'http://localhost:3000/main',
+      success_url: 'http://localhost:3000/success',
       cancel_url: 'https://coingate.com/',
       callback: 'http://localhost:3000/main',
       description: 'Your order in crypto',
     });
+    setVLoading(!loading);
+    alert(`${res.orderable_id}`);
+    alert(`${res.order_id}`);
     alert(`${res.id}`);
     window.location.href = `${res.payment_url}`;
     setVLoading(!loading);
@@ -55,7 +58,8 @@ export const MainPage: FC = () => {
         value={value}
         onChange={(e) => setValue(+e.target.value ? +e.target.value : 1)}
       />
-      <div>{value}</div>
+      <span>{100 - value}</span>
+      <span>/{value}</span>
       {loading && <div>Loading...</div>}
       <button onClick={checkout}>BUY A FR(FIAT)</button>
       <br />

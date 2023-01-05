@@ -1,11 +1,11 @@
 ### Send POST request with json body
-POST https://api.coingate.com/api/v2/orders/52886/checkout
-content-type: application/json
-authorization: Bearer GaTHXSf1RHAZvgPiuMhe-Sh5Kg9dEBBuDJtGxUwe
+POST https://api.coingate.com/api/v2/orders/763/checkout
+Content-Type: application/json
+Authorization: Bearer GaTHXSf1RHAZvgPiuMhe-Sh5Kg9dEBBuDJtGxUwe
 
 {
-  "id": 52886,
-  "pay_currency": "BTC"
+  "pay_currency": "BTC",
+  "id": 763
 }
 
 

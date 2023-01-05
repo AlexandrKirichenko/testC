@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   baseURL: 'https://api-sandbox.coingate.com/v2',
   headers: {
     Accept: 'application/json',
-    authorization: 'Bearer GaTHXSf1RHAZvgPiuMhe-Sh5Kg9dEBBuDJtGxUwe',
+    authorization: 'Bearer 2sY_M4UvRB12N3bZdSRznzFKB1rvbng_rHcM8b8V"',
     'Content-Type': 'application/json',
   },
 });
@@ -20,29 +20,11 @@ interface PostOrdersProps {
   callback: string;
   description: string;
 }
-export const PostOrders = async ({
-  order_id,
-  price_amount,
-  price_currency,
-  receive_currency,
-  success_url,
-  cancel_url,
-  callback,
-  description,
-}: PostOrdersProps): Promise<any> => {
+export const PostOrders = async (params: PostOrdersProps) => {
   const axiosRequestConfig: AxiosRequestConfig = {
     method: 'POST',
     url: '/orders',
-    params: {
-      order_id,
-      price_amount,
-      price_currency,
-      receive_currency,
-      success_url,
-      cancel_url,
-      callback,
-      description,
-    },
+    params,
   };
 
   const response = await axiosInstance.request(axiosRequestConfig);

@@ -1,5 +1,6 @@
 import { Page404 } from '@pages/Error404Page';
 import { MainPage } from '@pages/MainPage';
+import { Success } from '@pages/Success';
 import { FC } from 'react';
 
 interface RouteItem {
@@ -7,7 +8,7 @@ interface RouteItem {
   component: FC;
 }
 
-export const routeNameList = ['main', 'error404'] as const;
+export const routeNameList = ['main', 'error404', 'success'] as const;
 
 export type RouteNameList = typeof routeNameList[number];
 
@@ -19,5 +20,9 @@ export const routeList: Record<RouteNameList, RouteItem> = {
   error404: {
     path: '*',
     component: Page404,
+  },
+  success: {
+    path: '/success',
+    component: Success,
   },
 };
